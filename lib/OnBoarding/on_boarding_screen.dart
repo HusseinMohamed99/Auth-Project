@@ -13,12 +13,11 @@ class OnBoardScreen extends StatefulWidget {
 class _OnBoardScreenState extends State<OnBoardScreen> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, SignInScreen.routeName);
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
