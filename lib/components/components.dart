@@ -7,10 +7,16 @@ class DefaultFormField extends StatelessWidget {
   TextInputType? keyboardType;
   String hint;
   Widget? prefixIcon;
+  IconData? suffix;
   String? Function(String?) validate;
+  bool? isPassword;
+  Function? suffixPressed;
 
   DefaultFormField(
-      {this.prefixIcon,
+      {this.isPassword,
+      this.suffixPressed,
+      this.prefixIcon,
+      this.suffix,
       this.textColor,
       this.fontSize,
       this.keyboardType,
@@ -30,9 +36,17 @@ class DefaultFormField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       validator: validate,
+      obscureText: isPassword ?? false,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: prefixIcon,
+        suffixIcon: suffix != null
+            ? IconButton(
+                onPressed: () {
+                  suffixPressed!();
+                },
+                icon: const Icon(Icons.remove_red_eye_outlined))
+            : null,
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
               color: Color.fromARGB(255, 47, 84, 205), width: 2),

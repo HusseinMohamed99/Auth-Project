@@ -31,9 +31,9 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routes: {
-        SignInScreen.routeName : (context)=>  SignInScreen(),
-        SignUpScreen.routeName : (context)=> const SignUpScreen(),
-        OnBoardScreen.routeName : (context)=> const OnBoardScreen(),
+        SignInScreen.routeName: (context) => const SignInScreen(),
+        SignUpScreen.routeName: (context) => const SignUpScreen(),
+        OnBoardScreen.routeName: (context) => const OnBoardScreen(),
       },
       initialRoute: OnBoardScreen.routeName,
     );
