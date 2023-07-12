@@ -1,18 +1,21 @@
+import 'package:auth_project/OnBoarding/on_boarding_screen.dart';
+import 'package:auth_project/components/navigator.dart';
+import 'package:auth_project/shared/cache_helper.dart';
 import 'package:flutter/material.dart';
 
 class DefaultFormField extends StatelessWidget {
-  Color? textColor;
-  double? fontSize;
-  TextEditingController controller;
-  TextInputType? keyboardType;
-  String hint;
-  Widget? prefixIcon;
-  IconData? suffix;
-  String? Function(String?) validate;
-  bool? isPassword;
-  Function? suffixPressed;
+  final Color? textColor;
+  final double? fontSize;
+  final TextEditingController controller;
+  final TextInputType? keyboardType;
+  final String hint;
+  final Widget? prefixIcon;
+  final IconData? suffix;
+  final String? Function(String?) validate;
+  final bool? isPassword;
+  final Function? suffixPressed;
 
-  DefaultFormField(
+  const DefaultFormField(
       {this.isPassword,
       this.suffixPressed,
       this.prefixIcon,
@@ -66,4 +69,12 @@ class DefaultFormField extends StatelessWidget {
       ),
     );
   }
+}
+
+void logOut(context) {
+  CacheHelper.removeData(key: 'uId').then((value) {
+    if (value) {
+      navigateAndFinish(context, const OnBoardScreen());
+    }
+  });
 }

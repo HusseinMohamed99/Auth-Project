@@ -2,6 +2,11 @@ import 'package:auth_project/Cubit/sign_in_cubit/sign_in_cubit.dart';
 import 'package:auth_project/Cubit/sign_in_cubit/sign_in_state.dart';
 import 'package:auth_project/SignUp/sign_up_screen.dart';
 import 'package:auth_project/components/components.dart';
+import 'package:auth_project/components/navigator.dart';
+import 'package:auth_project/home_screen/home_screen.dart';
+import 'package:auth_project/shared/cache_helper.dart';
+import 'package:auth_project/shared/constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +23,13 @@ class SignInScreen extends StatelessWidget {
     return BlocProvider(
       create: (buildContext) => SignInCubit(),
       child: BlocConsumer<SignInCubit, SignInStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is SignInSuccessState) {
+            CacheHelper.saveData(key: 'uId', value: state.uid);
+            uId = state.uid;
+            navigateAndFinish(context, const HomeScreen());
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.white,
@@ -120,9 +131,13 @@ class SignInScreen extends StatelessWidget {
                             elevation: 6,
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                return;
+                                SignInCubit.get(context).signIn(
+                                    email: emailController.text,
+                                    password: passwordController.text);
                               }
-                              print('Done');
+                              if (kDebugMode) {
+                                print('Done');
+                              }
                             },
                             child: Text(
                               'login'.toUpperCase(),

@@ -55,20 +55,18 @@ class SignUpCubit extends Cubit<SignUpStates> {
   }) async {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        )
-        .then((value) => {
-              userCreate(
-                userName: userName,
-                phone: phone,
-                email: email,
-                uId: value.user!.uid,
-              ),
-            })
-        .catchError((error) {
-      emit(SignUpErrorState(error.toString()));
-      // print(error.toString());
+      email: email,
+      password: password,
+    )
+        .then((value) {
+      userCreate(
+        userName: userName,
+        phone: phone,
+        email: email,
+        uId: value.user!.uid,
+      );
+    }).catchError((error) {
+      emit(SignUpErrorState(error));
     });
   }
 }

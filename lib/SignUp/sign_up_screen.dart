@@ -1,6 +1,10 @@
 import 'package:auth_project/Cubit/sign_up_cubit/sign_up_cubit.dart';
 import 'package:auth_project/Cubit/sign_up_cubit/sign_up_state.dart';
 import 'package:auth_project/components/components.dart';
+import 'package:auth_project/components/navigator.dart';
+import 'package:auth_project/home_screen/home_screen.dart';
+import 'package:auth_project/shared/cache_helper.dart';
+import 'package:auth_project/shared/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +24,13 @@ class SignUpScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SignUpCubit(),
       child: BlocConsumer<SignUpCubit, SignUpStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is UserCreateSuccessState) {
+            CacheHelper.saveData(key: 'uId', value: state.uid);
+            uId = state.uid;
+            navigateAndFinish(context, const HomeScreen());
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -149,7 +159,7 @@ class SignUpScreen extends StatelessWidget {
                           if (value!.trim().isEmpty) {
                             return 'Please enter your Confirm Password';
                           }
-                          if (value.trim().length <= 6) {
+                          if (value.trim().length < 6) {
                             return 'No';
                           } else if (passwordController.text.trim() !=
                               confirmPasswordController.text.trim()) {
